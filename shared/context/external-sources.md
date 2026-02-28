@@ -54,6 +54,24 @@ Key points captured on 2026-02-28:
 - Commit messages should explain the problem and why the chosen change is better, not just restate the diff.
 - Git's contributor tutorial recommends a short subject line, a blank line, and a body that supplies the "why" that is not obvious from the patch.
 
+## Task Tracking Guidance
+
+Primary sources:
+- `https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/about-task-lists`
+- `https://docs.github.com/en/issues/tracking-your-work-with-issues/planning-and-tracking-work-for-your-team-or-project`
+- `https://www.atlassian.com/agile/project-management/backlog-refinement-meeting`
+
+Use for:
+- breaking larger work into smaller tracked tasks
+- making progress and blockers visible
+- keeping active task lists current and actionable
+
+Key points captured on 2026-02-28:
+- GitHub task lists are meant to break larger work into smaller trackable tasks with visible completion state.
+- GitHub's planning guidance emphasizes explicit tracked work and visible blocking relationships.
+- Atlassian's backlog refinement guidance emphasizes regular review, reprioritization, and removing stale items so the backlog stays actionable.
+- For local `tasks/` files, the practical equivalent is one current task note per work item, explicit blockers, and frequent refresh of next actions.
+
 ## Vendored Repositories
 
 ### Anthropic official skills
@@ -119,3 +137,5 @@ Popularity snapshot on 2026-02-28:
   - pair with `shared/skills/testing/SKILL.md` when the issue requires browser or runtime reproduction
 - `shared/skills/documentation-maintenance/SKILL.md`
   - update `shared/context/session-memory.md` when a session discovers durable context
+- `shared/skills/task-tracking/SKILL.md`
+  - draw from GitHub task list guidance and backlog refinement practices for maintaining actionable local task files

@@ -22,6 +22,7 @@ This repository is the canonical source of shared steering for multiple AI agent
 - `shared/skills/repo-bootstrap/SKILL.md`
 - `shared/skills/prioritization/SKILL.md`
 - `shared/skills/task-management/SKILL.md`
+- `shared/skills/task-tracking/SKILL.md`
 - `shared/skills/memory-maintenance/SKILL.md`
 - `shared/skills/continuous-learning/SKILL.md`
 - `shared/skills/skill-authoring/SKILL.md`

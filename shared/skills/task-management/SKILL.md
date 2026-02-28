@@ -12,9 +12,10 @@ Use this skill for multi-step work that can drift without explicit structure.
 1. Define the target outcome, constraints, and what counts as done.
 2. Break the work into a short ordered plan with one active step at a time.
 3. For work that may span a session boundary, keep a task note under `tasks/` with a descriptive filename so the current state can be recovered quickly.
-4. Update the plan when new facts change scope, sequence, or risk.
-5. Keep intermediate notes brief and action-oriented rather than narrating every thought.
-6. End by verifying the result and calling out anything still unproven.
+4. Use the `task-tracking` skill when that task note needs ongoing maintenance across multiple updates or handoffs.
+5. Update the plan when new facts change scope, sequence, or risk.
+6. Keep intermediate notes brief and action-oriented rather than narrating every thought.
+7. End by verifying the result and calling out anything still unproven.
 
 ## Rules
 
