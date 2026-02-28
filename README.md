@@ -21,8 +21,10 @@ agent-steering/
 ├── profiles/
 │   ├── personal/
 │   └── work/
+├── external/
 └── shared/
     ├── commands/
+    ├── context/
     ├── core/
     └── skills/
 ```
@@ -30,6 +32,10 @@ agent-steering/
 ## Design
 
 Shared guidance lives under `shared/`. Each agent adapter should stay thin and point back to shared content instead of re-encoding the same instructions in multiple places.
+
+Shared skills also live under `shared/skills/` so reusable workflows can improve over time without being trapped in one agent's local setup.
+
+Vendored third-party references live under `external/` so the repository can keep upstream examples and supporting files without mixing them into the canonical shared guidance.
 
 Recommended installation model:
 
@@ -43,6 +49,8 @@ Recommended installation model:
 
 Use `AGENTS.md` as the primary steering entry point. Agent-specific runtime configuration still belongs in the user's Codex config.
 
+This repository includes `install/install.sh write-codex-config` to generate a baseline `~/.codex/config.toml` with conservative defaults plus named profiles. That setup matches OpenAI's Codex security model: `workspace-write` does not imply network access, and protected paths such as `.git` remain read-only even inside writable roots.
+
 ### Claude
 
 Use `CLAUDE.md` as the native entry point and keep Claude skills in `.claude/skills/`.
@@ -53,6 +61,5 @@ Use `AGENTS.md` for shared steering and keep Kiro-only agents and hooks under `.
 
 ## Next Steps
 
-- add installation/bootstrap automation under `install/`
 - decide how profiles should be selected during install
-- add more skills and commands as they stabilize
+- keep promoting repeated workflows into shared skills and commands as they stabilize
