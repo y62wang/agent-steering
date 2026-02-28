@@ -49,7 +49,7 @@ Recommended installation model:
 
 Use `AGENTS.md` as the primary steering entry point. Agent-specific runtime configuration still belongs in the user's Codex config.
 
-This repository includes `install/install.sh write-codex-config` to generate a baseline `~/.codex/config.toml` with conservative defaults plus named profiles. That setup matches OpenAI's Codex security model: `workspace-write` does not imply network access, and protected paths such as `.git` remain read-only even inside writable roots.
+This repository includes `install/install.sh write-codex-config` to generate a baseline `~/.codex/config.toml` with a higher-trust default plus named profiles. The generated default uses `workspace-write`, `on-request` approvals, and network access enabled. Protected paths such as `.git` still remain read-only in `workspace-write`; only the explicit `yolo` profile switches to `danger-full-access`.
 
 ### Claude
 

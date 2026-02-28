@@ -6,7 +6,7 @@ This directory contains the first-pass installation automation for wiring the sh
 
 ### `write-codex-config`
 
-Write a baseline `config.toml` for Codex with conservative defaults and named profiles.
+Write a baseline `config.toml` for Codex with higher-trust defaults and named profiles.
 
 Example:
 
@@ -16,9 +16,10 @@ Example:
 
 Behavior:
 - Writes `~/.codex/config.toml` by default.
-- Sets top-level defaults to `approval_policy = "untrusted"` and `sandbox_mode = "read-only"`.
-- Adds `auto`, `readonly`, and `readonly_quiet` profiles for `codex --profile <name>`.
-- Keeps `network_access = false` in `workspace-write` mode unless you later opt in.
+- Sets top-level defaults to `approval_policy = "on-request"` and `sandbox_mode = "workspace-write"`.
+- Enables `network_access = true` in `workspace-write` mode.
+- Adds `auto`, `readonly`, `readonly_quiet`, `trusted`, and `yolo` profiles for `codex --profile <name>`.
+- Keeps `.git`, `.codex`, and `.agents` protected in `workspace-write`; use `yolo` only when you intentionally want no sandbox and no approval prompts.
 
 ### `write-project-entrypoint`
 

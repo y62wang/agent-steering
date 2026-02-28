@@ -186,14 +186,14 @@ write_codex_config() {
 #
 # Notes:
 # - workspace-write still keeps .git, .codex, and .agents paths read-only.
-# - network access stays off in workspace-write unless you explicitly enable it.
+# - use the yolo profile if you intentionally want no sandbox and no approvals.
 
-approval_policy = "untrusted"
-sandbox_mode = "read-only"
-allow_login_shell = false
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+allow_login_shell = true
 
 [sandbox_workspace_write]
-network_access = false
+network_access = true
 
 [profiles.auto]
 approval_policy = "on-request"
@@ -206,6 +206,14 @@ sandbox_mode = "read-only"
 [profiles.readonly_quiet]
 approval_policy = "never"
 sandbox_mode = "read-only"
+
+[profiles.trusted]
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[profiles.yolo]
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
 EOF
   )
 

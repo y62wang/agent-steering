@@ -22,6 +22,8 @@ Links:
 
 Useful launches:
 - `codex --profile auto`
+- `codex --profile trusted`
+- `codex --profile yolo`
 - `codex --profile readonly`
 
 ## Claude project wrapper plus shared skills
