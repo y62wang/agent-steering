@@ -6,7 +6,7 @@ This directory contains the first-pass installation automation for wiring the sh
 
 ### `write-codex-config`
 
-Write a baseline `config.toml` for Codex with higher-trust defaults and named profiles.
+Write a baseline `config.toml` for Codex with conservative user-level defaults and named profiles.
 
 Example:
 
@@ -16,10 +16,28 @@ Example:
 
 Behavior:
 - Writes `~/.codex/config.toml` by default.
-- Sets top-level defaults to `approval_policy = "on-request"` and `sandbox_mode = "workspace-write"`.
-- Enables `network_access = true` in `workspace-write` mode.
+- Sets top-level defaults to `approval_policy = "untrusted"` and `sandbox_mode = "read-only"`.
+- Keeps `network_access = false` in `workspace-write` mode unless a trusted project or profile overrides it.
 - Adds `auto`, `readonly`, `readonly_quiet`, `trusted`, and `yolo` profiles for `codex --profile <name>`.
 - Keeps `.git`, `.codex`, and `.agents` protected in `workspace-write`; use `yolo` only when you intentionally want no sandbox and no approval prompts.
+
+### `write-codex-project-config`
+
+Write a project-local `.codex/config.toml` so Codex trust and privilege are scoped to one repo instead of all Codex sessions.
+
+Example:
+
+```bash
+./install/install.sh write-codex-project-config \
+  --project-dir /path/to/project \
+  --mode trusted
+```
+
+Behavior:
+- Writes `/path/to/project/.codex/config.toml`.
+- Supports `safe`, `trusted`, and `yolo` presets.
+- Overrides `~/.codex/config.toml` for that project when the project is trusted.
+- Lets you keep user-level defaults conservative while granting more access only where intended.
 
 ### `write-project-entrypoint`
 
@@ -71,6 +89,6 @@ Compatibility aliases:
 - Installation stays simple and auditable.
 - Generated wrappers are pointers back to this repository, not a second source of truth.
 - Shared skills are linked as directories so updates in `shared/skills/` become visible immediately in Codex, Claude, and Kiro.
-- Codex runtime security settings belong in `config.toml`; this repository can generate a baseline, but the active file lives under the user's Codex directory.
+- Codex runtime security settings belong in `config.toml`; user defaults live under `~/.codex/`, while project-specific privilege should usually live in repo-local `.codex/config.toml`.
 
 See `install/examples.md` for concrete commands.

@@ -9,6 +9,7 @@ usage() {
 Usage:
   install/install.sh write-project-entrypoint --agent codex|claude|kiro --profile work|personal --project-dir PATH [--force]
   install/install.sh write-codex-config [--codex-dir PATH] [--force]
+  install/install.sh write-codex-project-config --project-dir PATH [--mode safe|trusted|yolo] [--force]
   install/install.sh link-agent-skills --agent codex|claude|kiro [--agent-dir PATH] [--force]
   install/install.sh link-codex-skills [--codex-dir PATH] [--force]
   install/install.sh link-claude-skills [--claude-dir PATH] [--force]
@@ -16,7 +17,8 @@ Usage:
 
 Commands:
   write-project-entrypoint  Write a thin project-local wrapper that points back to this repository's canonical steering files.
-  write-codex-config        Write a baseline ~/.codex/config.toml with safer defaults and named profiles.
+  write-codex-config        Write a baseline ~/.codex/config.toml with conservative user-level defaults.
+  write-codex-project-config Write a project-local .codex/config.toml to set Codex trust and privilege for one repo.
   link-agent-skills         Symlink shared skills from this repository into a Codex, Claude, or Kiro skills directory.
   link-codex-skills         Compatibility alias for link-agent-skills --agent codex.
   link-claude-skills        Compatibility alias for link-agent-skills --agent claude.
@@ -26,6 +28,7 @@ Options:
   --agent       Target agent for the generated entrypoint.
   --profile     Active profile to reference from the generated entrypoint.
   --project-dir Project directory where AGENTS.md or CLAUDE.md should be written.
+  --mode        Codex project privilege preset: safe, trusted, or yolo.
   --agent-dir   Agent config directory. Defaults to "$HOME/.codex", "$HOME/.claude", or "$HOME/.kiro".
   --codex-dir   Codex config directory. Defaults to "$HOME/.codex".
   --claude-dir  Claude config directory. Defaults to "$HOME/.claude".
@@ -185,15 +188,15 @@ write_codex_config() {
 # - https://developers.openai.com/codex/config-basic
 #
 # Notes:
-# - workspace-write still keeps .git, .codex, and .agents paths read-only.
-# - use the yolo profile if you intentionally want no sandbox and no approvals.
+# - prefer keeping user-level defaults conservative and scoping stronger access to trusted projects.
+# - project-local .codex/config.toml files override this file when the project is trusted.
 
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-allow_login_shell = true
+approval_policy = "untrusted"
+sandbox_mode = "read-only"
+allow_login_shell = false
 
 [sandbox_workspace_write]
-network_access = true
+network_access = false
 
 [profiles.auto]
 approval_policy = "on-request"
@@ -216,6 +219,89 @@ approval_policy = "never"
 sandbox_mode = "danger-full-access"
 EOF
   )
+
+  write_file "$target_file" "$content" "$force"
+  printf 'wrote %s\n' "$target_file"
+}
+
+write_codex_project_config() {
+  local project_dir=""
+  local mode="trusted"
+  local force="false"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --project-dir)
+        project_dir="${2:-}"
+        shift 2
+        ;;
+      --mode)
+        mode="${2:-}"
+        shift 2
+        ;;
+      --force)
+        force="true"
+        shift
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        die "unknown option for write-codex-project-config: $1"
+        ;;
+    esac
+  done
+
+  [[ -n "$project_dir" ]] || die "--project-dir is required"
+  [[ "$mode" == "safe" || "$mode" == "trusted" || "$mode" == "yolo" ]] || die "--mode must be safe, trusted, or yolo"
+
+  require_dir "$project_dir"
+
+  local target_file="$project_dir/.codex/config.toml"
+  local content=""
+
+  case "$mode" in
+    safe)
+      content=$(
+        cat <<'EOF'
+# Managed by agent-steering install/install.sh write-codex-project-config
+# Project-local Codex settings for a trusted repo.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+EOF
+      )
+      ;;
+    trusted)
+      content=$(
+        cat <<'EOF'
+# Managed by agent-steering install/install.sh write-codex-project-config
+# Project-local Codex settings for a trusted repo.
+
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true
+EOF
+      )
+      ;;
+    yolo)
+      content=$(
+        cat <<'EOF'
+# Managed by agent-steering install/install.sh write-codex-project-config
+# Project-local Codex settings for a fully trusted repo.
+
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+EOF
+      )
+      ;;
+  esac
 
   write_file "$target_file" "$content" "$force"
   printf 'wrote %s\n' "$target_file"
@@ -330,6 +416,9 @@ main() {
       ;;
     write-codex-config)
       write_codex_config "$@"
+      ;;
+    write-codex-project-config)
+      write_codex_project_config "$@"
       ;;
     link-agent-skills)
       link_agent_skills "$@"

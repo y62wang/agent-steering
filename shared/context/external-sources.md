@@ -33,6 +33,7 @@ Key points captured on 2026-02-28:
 - `workspace-write` still protects `.git`, `.codex`, and `.agents` as read-only inside writable roots.
 - Network access is off by default and must be enabled explicitly under `[sandbox_workspace_write]`.
 - Codex supports named profiles in `config.toml`, selected with `codex --profile <name>`.
+- Trusted repo-local `.codex/config.toml` files override `~/.codex/config.toml`; project config precedence is below CLI flags and profiles but above user config.
 
 ## Git Commit Guidance
 

@@ -49,7 +49,7 @@ Recommended installation model:
 
 Use `AGENTS.md` as the primary steering entry point. Agent-specific runtime configuration still belongs in the user's Codex config.
 
-This repository includes `install/install.sh write-codex-config` to generate a baseline `~/.codex/config.toml` with a higher-trust default plus named profiles. The generated default uses `workspace-write`, `on-request` approvals, and network access enabled. Protected paths such as `.git` still remain read-only in `workspace-write`; only the explicit `yolo` profile switches to `danger-full-access`.
+This repository includes `install/install.sh write-codex-config` for conservative user defaults and `install/install.sh write-codex-project-config` for repo-local privilege. That matches Codex configuration precedence: trusted `.codex/config.toml` files inside a repo override `~/.codex/config.toml`, so stronger access can be scoped to the project instead of affecting every Codex session. Protected paths such as `.git` still remain read-only in `workspace-write`; only explicit `danger-full-access` removes that protection.
 
 ### Claude
 

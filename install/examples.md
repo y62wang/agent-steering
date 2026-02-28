@@ -5,6 +5,10 @@
 ```bash
 ./install/install.sh write-codex-config --codex-dir ~/.codex
 
+./install/install.sh write-codex-project-config \
+  --project-dir /path/to/project \
+  --mode trusted
+
 ./install/install.sh write-project-entrypoint \
   --agent codex \
   --profile personal \
@@ -15,6 +19,7 @@
 
 Writes:
 - `~/.codex/config.toml`
+- `/path/to/project/.codex/config.toml`
 - `/path/to/project/AGENTS.md`
 
 Links:
@@ -25,6 +30,10 @@ Useful launches:
 - `codex --profile trusted`
 - `codex --profile yolo`
 - `codex --profile readonly`
+
+Recommended split:
+- keep `~/.codex/config.toml` conservative
+- use `/path/to/project/.codex/config.toml` for repo-specific trust and access
 
 ## Claude project wrapper plus shared skills
 
