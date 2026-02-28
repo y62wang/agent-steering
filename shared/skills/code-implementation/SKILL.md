@@ -14,10 +14,13 @@ Use this skill for routine coding work where the main risk is careless execution
 3. Preserve established naming, structure, and abstraction boundaries unless they are part of the problem.
 4. Prefer clear control flow and explicit data handling over clever compression.
 5. Keep the diff reviewable by separating functional changes from cleanup unless both are inseparable.
-6. Verify the result with direct checks, then inspect the diff for unintended churn.
+6. When a task spans more than one concern, implement it in slices that can become separate commits instead of one large final bundle.
+7. Verify the result with direct checks, then inspect the diff for unintended churn and commit-boundary clarity.
 
 ## Rules
 
 - Do not start by rewriting large areas to fit a preferred style.
 - Avoid speculative abstractions unless a real second use already exists.
+- Avoid mixing refactors, behavior changes, and mechanical cleanup in the same patch unless the code would be misleading or broken without the combination.
+- If one file contains two concerns, prefer staging the relevant hunks separately instead of abandoning modular commits.
 - If a change forces a pattern decision, make the tradeoff explicit in the handoff.

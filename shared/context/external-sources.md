@@ -34,6 +34,25 @@ Key points captured on 2026-02-28:
 - Network access is off by default and must be enabled explicitly under `[sandbox_workspace_write]`.
 - Codex supports named profiles in `config.toml`, selected with `codex --profile <name>`.
 
+## Git Commit Guidance
+
+Primary sources:
+- `https://git-scm.com/docs/SubmittingPatches`
+- `https://git-scm.com/docs/git-add`
+- `https://git-scm.com/docs/MyFirstContribution`
+
+Use for:
+- modular commit boundaries
+- partial staging workflows
+- commit message structure and rationale
+
+Key points captured on 2026-02-28:
+- Git's own contribution guidance says to make separate commits for logically separate changes.
+- If the explanation for one commit grows too long, that is usually a signal to split the change into finer-grained commits.
+- `git add -p` and `git add -e` are the core tools for staging only the hunks that belong in the next commit.
+- Commit messages should explain the problem and why the chosen change is better, not just restate the diff.
+- Git's contributor tutorial recommends a short subject line, a blank line, and a body that supplies the "why" that is not obvious from the patch.
+
 ## Vendored Repositories
 
 ### Anthropic official skills
