@@ -72,6 +72,27 @@ Key points captured on 2026-02-28:
 - Atlassian's backlog refinement guidance emphasizes regular review, reprioritization, and removing stale items so the backlog stays actionable.
 - For local `tasks/` files, the practical equivalent is one current task note per work item, explicit blockers, and frequent refresh of next actions.
 
+## Zsh Script Validation Guidance
+
+Primary sources:
+- `https://zsh.sourceforge.io/Doc/Release/Invocation.html`
+- `https://zsh.sourceforge.io/Doc/Release/Options.html`
+- `https://github.com/shellspec/shellspec`
+- `https://bats-core.readthedocs.io/`
+- `https://www.shellcheck.net/`
+
+Use for:
+- zsh-specific parse, startup, and tracing options
+- choosing behavior-test tooling for shell refactors
+- clarifying where generic shell linting helps and where it does not prove zsh behavior
+
+Key points captured on 2026-03-01:
+- `zsh -n` is the fast parse gate, but it does not validate runtime behavior, environment assumptions, or side effects.
+- `zsh -f` is valuable for refactors because it disables user startup files and exposes hidden dependencies on local shell configuration.
+- The `xtrace` and `sourcetrace` options are the core built-in tracing aids when reproducing command flow and sourced-file execution.
+- ShellSpec is a good fit for testing sourced shell functions and assertion-heavy shell behavior; Bats is a good fit for black-box CLI tests that validate exit status and output.
+- ShellCheck is useful for Bourne-style shell pitfalls, but it should be treated as a supplemental lint layer rather than proof that zsh-specific code is correct.
+
 ## Vendored Repositories
 
 ### Anthropic official skills
@@ -139,3 +160,5 @@ Popularity snapshot on 2026-02-28:
   - update `shared/context/session-memory.md` when a session discovers durable context
 - `shared/skills/task-tracking/SKILL.md`
   - draw from GitHub task list guidance and backlog refinement practices for maintaining actionable local task files
+- `shared/skills/zsh-development-loop/SKILL.md`
+  - draw from zsh invocation and options docs plus ShellSpec, Bats, and ShellCheck references for shell-specific validation strategy

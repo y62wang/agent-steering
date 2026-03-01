@@ -29,6 +29,8 @@ This repository is the canonical source of shared steering for multiple AI agent
 - `shared/skills/debugging/SKILL.md`
 - `shared/skills/testing/SKILL.md`
 - `shared/skills/code-implementation/SKILL.md`
+- `shared/skills/development-loop/SKILL.md`
+- `shared/skills/zsh-development-loop/SKILL.md`
 - `shared/skills/commit-prep/SKILL.md`
 - `shared/skills/documentation-maintenance/SKILL.md`
 

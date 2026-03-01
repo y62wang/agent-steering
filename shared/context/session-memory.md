@@ -66,3 +66,39 @@ What still seems worthwhile later:
 - Add more install flows for agent-specific extras beyond shared skills, especially Kiro `.kiro/agents/` and `.kiro/hooks/`.
 - Consider a thin `documentation-maintenance` skill if repeated doc drift appears.
 - Consider adding references or scripts only after a workflow proves repetitive enough to justify them.
+
+## 2026-03-01: Development loop orchestration skill
+
+Goal:
+- Add a shared skill that captures the standard development loop without duplicating the detailed guidance already present in the implementation, testing, debugging, commit, and review skills.
+
+Research and rationale:
+- Local skill-authoring guidance and vendored skill references were reviewed first to keep the new skill thin, triggerable, and based on progressive disclosure.
+- The chosen shape is an orchestration skill rather than a monolithic process document because this repository already has narrow reusable skills for each major phase.
+- The workflow explicitly loops on build and unit-test failures through `debugging` plus `testing`, then hands off commit shaping to `commit-prep` and final defect hunting to `review`.
+
+Repository changes made in this session:
+- Added `shared/skills/development-loop/SKILL.md`.
+- Updated `AGENTS.md` so the new skill is visible in the shared skill list.
+
+Notes for later:
+- If this orchestration pattern proves stable, consider adding eval prompts that test whether agents route correctly between `task-management`, `code-implementation`, `testing`, `debugging`, `commit-prep`, and `review`.
+
+## 2026-03-01: Zsh development loop skill
+
+Goal:
+- Add a shared skill for zsh script development and refactoring that is parallel to the generic development loop but much more explicit about proving shell behavior actually still works.
+
+Research and rationale:
+- Reused the thin orchestration shape from `development-loop` instead of inventing a separate long-form shell guide.
+- Checked zsh invocation and option references to ground the workflow in `zsh -n`, `zsh -f`, `xtrace`, `sourcetrace`, and related built-in validation paths.
+- Pulled in ShellSpec and Bats as complementary test-tool references: ShellSpec for sourced-function behavior, Bats for black-box command execution, exit status, and output checks.
+- Kept ShellCheck in the references as a supplemental lint source only, because syntax and lint success are not enough evidence for zsh-specific refactors.
+
+Repository changes made in this session:
+- Added `shared/skills/zsh-development-loop/SKILL.md`.
+- Updated `AGENTS.md` so the new skill is listed in discovery.
+- Updated `shared/context/external-sources.md` with the zsh and shell-testing primary sources used for the skill.
+
+Notes for later:
+- If shell-focused work becomes more common, consider a narrower testing reference or template fixture layout for temporary directories, fake `PATH` shims, and golden-output checks.
